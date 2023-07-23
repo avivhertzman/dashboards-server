@@ -6,7 +6,8 @@
         },
         "indices": {
             "eventSchemas": "event_schemas",
-            "events": "events"
+            "events": "events",
+            "charts": "charts"
         }
     },
     "server": {
