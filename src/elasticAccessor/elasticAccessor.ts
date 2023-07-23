@@ -1,37 +1,40 @@
 import { Client } from '@elastic/elasticsearch';
 import config from 'config';
+import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
 
 export default class ElasticAccessor {
     private client;
+    private index = config.get('elastic.indices.eventSchemas');
     constructor() {
         this.client = new Client({
-            cloud: { id: config.get('elastic.cloudId') },
-            auth: { apiKey: config.get('elastic.apiKey') }
+            cloud: { id: config.get('elastic.setUp.cloudId') },
+            auth: { apiKey: config.get('elastic.setUp.apiKey') }
         })
+
     }
-   async getEventSchemaById(id: string) {
-        let schema = await this.client.get({ index: 'event_schemas', id })
+    async getEventSchemaById(id: string) {
+        let schema = await this.client.get({ index: this.index, id })
         return schema;
     }
 
+    async getEventSchemas() {
+        let result = await this.client.search({
+            index: this.index, query: {
+                'match_all': {}
+            }, 'stored_fields': []
+        })
+        return result;
+    }
 
-    addSchema() {
-        // await client.index({
-        //     index: 'event_schemas', id: 'first_schema', document: {
-        //         "$id": "https://example.com/person.schema.json",
-        //         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        //         "title": "Person",
-        //         "type": "object",
-        //         "properties": {
-        //             "firstName": {
-        //                 "type": "string",
-        //                 "description": "The person's first name."
-        //             },
-
-        //         }
-        //     } }
-        //     );
-        const b = this.client.get({ index: 'event_schemas', id: 'first_schema' })
-        console.log(b);
+    async addSchema(eventSchemaToCreate: EventSchemaToCreate) {
+        if (eventSchemaToCreate.name)
+            await this.client.index({
+                index: 'event_schemas', document: eventSchemaToCreate.schema, id: eventSchemaToCreate.name
+            });
+        else {
+            await this.client.index({
+                index: 'event_schemas', document: eventSchemaToCreate.schema
+            });
+        }
     }
 }

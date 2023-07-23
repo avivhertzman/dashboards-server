@@ -7,7 +7,6 @@ import config from 'config';
 const port = config.get('server.port');
 const app = express()
 
-// app.use(bodyParser.json())
 app.use(express.json())
 
 app.use(eventSchemaRouter)
