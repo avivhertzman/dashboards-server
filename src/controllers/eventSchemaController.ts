@@ -2,7 +2,7 @@ import { EventSchemaService } from "../services/eventSchemaService";
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
 
 const eventSchemaService = new EventSchemaService();
-
+// TODO: req validators
 async function getEventSchemaById(req, res) {
     let id = req.params.id;
     try {
@@ -15,10 +15,11 @@ async function getEventSchemaById(req, res) {
         })
     }
 }
-async function createNewEventSchema(req, res) {
+
+async function createEventSchema(req, res) {
     let schema: EventSchemaToCreate = req.body.schemaRequest;
     try {
-        await eventSchemaService.createNewEventSchema(schema);
+        await eventSchemaService.createEventSchema(schema);
         res.send();
     }
     catch (e) {
@@ -47,4 +48,4 @@ async function getEventSchemas(req, res) {
     }
 }
 
-export { getEventSchemaById, createNewEventSchema, getEventSchemas }
+export { getEventSchemaById, createEventSchema, getEventSchemas }

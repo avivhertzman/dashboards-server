@@ -5,7 +5,8 @@
         "apiKey": "cmRQZGVJa0JwLUFiNzkxdU1qVXk6SzBQRDBLeFZUTHFkTmJvQ2gyS0ZyZw=="
         },
         "indices": {
-            "eventSchemas": "event_schemas"
+            "eventSchemas": "event_schemas",
+            "events": "events"
         }
     },
     "server": {

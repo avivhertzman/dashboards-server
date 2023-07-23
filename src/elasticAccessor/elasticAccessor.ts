@@ -2,9 +2,10 @@ import { Client } from '@elastic/elasticsearch';
 import config from 'config';
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
 
-export default class ElasticAccessor {
+class ElasticAccessor {
     private client;
-    private index = config.get('elastic.indices.eventSchemas');
+    private schemasIndex = config.get('elastic.indices.eventSchemas');
+    private eventsIndex = config.get('elastic.indices.events');
     constructor() {
         this.client = new Client({
             cloud: { id: config.get('elastic.setUp.cloudId') },
@@ -13,28 +14,35 @@ export default class ElasticAccessor {
 
     }
     async getEventSchemaById(id: string) {
-        let schema = await this.client.get({ index: this.index, id })
+        let schema = await this.client.get({ index: this.schemasIndex, id })
         return schema;
     }
 
     async getEventSchemas() {
         let result = await this.client.search({
-            index: this.index, query: {
+            index: this.schemasIndex, query: {
                 'match_all': {}
             }, 'stored_fields': []
         })
         return result;
     }
 
-    async addSchema(eventSchemaToCreate: EventSchemaToCreate) {
+    async createSchema(eventSchemaToCreate: EventSchemaToCreate) {
         if (eventSchemaToCreate.name)
             await this.client.index({
-                index: 'event_schemas', document: eventSchemaToCreate.schema, id: eventSchemaToCreate.name
+                index: this.schemasIndex, document: eventSchemaToCreate.schema, id: eventSchemaToCreate.name
             });
         else {
             await this.client.index({
-                index: 'event_schemas', document: eventSchemaToCreate.schema
+                index: this.schemasIndex, document: eventSchemaToCreate.schema
             });
         }
     }
+    async createEvent(event: any) {
+        await this.client.index({
+            index: this.eventsIndex, document: event
+        });
+    }
 }
+
+export const elasticAcessor = new ElasticAccessor();
