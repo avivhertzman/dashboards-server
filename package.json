@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/avivhertzman/dashboards-server/issues"
   },
-  "homepage": "https://github.com/avivhertzman/dashboards-server#readme"
+  "homepage": "https://github.com/avivhertzman/dashboards-server#readme",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.8.1",
+    "config": "^3.3.9"
+  }
 }

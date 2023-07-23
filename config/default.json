@@ -1,0 +1,9 @@
+{
+    "elastic": {
+        "cloudId": "8a81e5860075410fbe9a29b3e3f81a70:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyQ1N2Q2M2UyNWM2ZjA0OWZlODhkMjkwMWRlMWE3Nzk1NCRhYmI3NzE4MzM0NGM0M2JlYmNkMDJhNWE0M2RkNmJkMA==",
+        "apiKey": "cmRQZGVJa0JwLUFiNzkxdU1qVXk6SzBQRDBLeFZUTHFkTmJvQ2gyS0ZyZw=="
+    },
+    "server": {
+        "port": 8000
+    }
+}
