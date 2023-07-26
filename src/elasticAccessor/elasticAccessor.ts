@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import config from 'config';
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
-import {ChartToCreate} from "../../core/objects/ChartToCreate";
+import { ChartToCreate } from "../../core/objects/ChartToCreate";
 
 class ElasticAccessor {
     private client;
@@ -22,7 +22,7 @@ class ElasticAccessor {
 
     async getEventSchemas() {
         let result = await this.client.search({
-            index: this.schemasIndex, query: {
+            index: this.schemasIndex, size: 100, query: {
                 'match_all': {}
             }, 'stored_fields': []
         })
@@ -30,15 +30,13 @@ class ElasticAccessor {
     }
 
     async createSchema(eventSchemaToCreate: EventSchemaToCreate) {
+        let createRequest = { index: this.schemasIndex, document: eventSchemaToCreate.schema };
         if (eventSchemaToCreate.name)
-            await this.client.index({
-                index: this.schemasIndex, document: eventSchemaToCreate.schema, id: eventSchemaToCreate.name
-            });
-        else {
-            await this.client.index({
-                index: this.schemasIndex, document: eventSchemaToCreate.schema
-            });
-        }
+            createRequest["id"] = eventSchemaToCreate.name;
+        let result = await this.client.index(
+            createRequest
+        );
+        return result;
     }
     async createEvent(event: any) {
         await this.client.index({

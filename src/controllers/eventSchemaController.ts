@@ -17,10 +17,10 @@ async function getEventSchemaById(req, res) {
 }
 
 async function createEventSchema(req, res) {
-    let schema: EventSchemaToCreate = req.body.schemaRequest;
+    let schema: EventSchemaToCreate = req.body;
     try {
-        await eventSchemaService.createEventSchema(schema);
-        res.send();
+        let result = await eventSchemaService.createEventSchema(schema);
+        res.send(result);
     }
     catch (e) {
         res.status(e.statusCode).send({

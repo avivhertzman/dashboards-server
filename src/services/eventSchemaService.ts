@@ -7,11 +7,12 @@ export class EventSchemaService {
 
     async getEventSchemaById(id: string) {
         let schema = await elasticAcessor.getEventSchemaById(id);
-        return schema;
+        return schema._source;
     }
 
     async createEventSchema(schema: EventSchemaToCreate) {
-        await elasticAcessor.createSchema(schema);
+        let result = await elasticAcessor.createSchema(schema);
+        return {name: result._id};
     }
 
     async getEventSchemasIds() {
