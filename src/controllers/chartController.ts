@@ -1,6 +1,5 @@
-import { ChartService } from "../services/chartService";
+import  { ChartService }  from "../services/chartService";
 import { Chart } from "../../core/objects/chart";
-import { AggregationType } from "../../core/enum/aggregationType";
 
 const chartService = new ChartService();
 async function createChart(req, res) {

@@ -31,11 +31,8 @@ class ElasticAccessor {
     }
 
     async createSchema(eventSchemaToCreate: EventSchemaToCreate) {
-        let createRequest = { index: this.schemasIndex, document: eventSchemaToCreate.schema };
-        if (eventSchemaToCreate.name)
-            createRequest["id"] = eventSchemaToCreate.name;
         let result = await this.client.index(
-            createRequest
+            { index: this.schemasIndex, document: eventSchemaToCreate.schema }
         );
         return result;
     }
@@ -58,7 +55,7 @@ class ElasticAccessor {
         return this.getAllDocuments(this.chartsIndex);
     }
     async getAllDocuments(index: string) {
-        return await this.client.search({
+        return this.client.search({
             index, size: 100, query: {
                 'match_all': {}
             }
