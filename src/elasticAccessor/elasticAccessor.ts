@@ -1,8 +1,9 @@
 import { Client } from '@elastic/elasticsearch';
 import config from 'config';
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
-import { ChartToCreate } from "../../core/objects/ChartToCreate";
+import { Chart } from "../../core/objects/chart";
 
+// TODO: split this to many files
 class ElasticAccessor {
     private client;
     private schemasIndex = config.get('elastic.indices.eventSchemas');
@@ -39,14 +40,29 @@ class ElasticAccessor {
         return result;
     }
     async createEvent(event: any) {
-        await this.client.index({
+        return this.client.index({
             index: this.eventsIndex, document: event
         });
     }
-    async createChart(chart: ChartToCreate) {
-        await this.client.index({
+    async createChart(chart: Chart) {
+        return this.client.index({
             index: this.chartsIndex, document: chart
         });
+    }
+    async getAggregations(aggs) {
+        return this.client.search({
+            index: this.eventsIndex, size: 0, aggs
+        })
+    }
+    async getCharts() {
+        return this.getAllDocuments(this.chartsIndex);
+    }
+    async getAllDocuments(index: string) {
+        return await this.client.search({
+            index, size: 100, query: {
+                'match_all': {}
+            }
+        })
     }
 }
 

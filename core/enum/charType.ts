@@ -1,5 +1,5 @@
 export enum CharType {
-    Bar,
-    Pie,
-    Line
+    Bar = "BAR",
+    Pie = "PIE",
+    Line = "LINE"
 }

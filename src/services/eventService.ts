@@ -11,6 +11,6 @@ export class EventService {
     createEvent(event: any) {
         let date = format(new Date(), DATE_TIME_FORMAT);
         event['timestamp'] = date;
-        elasticAcessor.createEvent(event);
+        return elasticAcessor.createEvent(event);
     }
 }
