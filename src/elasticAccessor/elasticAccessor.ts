@@ -3,9 +3,8 @@ import config from 'config';
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
 import { Chart } from "../../core/objects/chart";
 
-// TODO: split this to many files
 class ElasticAccessor {
-    private client;
+    private client: Client;
     private schemasIndex = config.get('elastic.indices.eventSchemas');
     private eventsIndex = config.get('elastic.indices.events');
     private chartsIndex = config.get('elastic.indices.charts');
@@ -16,44 +15,47 @@ class ElasticAccessor {
         })
 
     }
+
     async getEventSchemaById(id: string) {
-        let schema = await this.client.get({ index: this.schemasIndex, id })
-        return schema;
+        return this.client.get({ index: this.schemasIndex, id })
     }
 
     async getEventSchemas() {
-        let result = await this.client.search({
+        return  this.client.search({
             index: this.schemasIndex, size: 100, query: {
                 'match_all': {}
             }, 'stored_fields': []
         })
-        return result;
     }
 
     async createSchema(eventSchemaToCreate: EventSchemaToCreate) {
-        let result = await this.client.index(
+        return  this.client.index(
             { index: this.schemasIndex, document: eventSchemaToCreate.schema }
         );
-        return result;
     }
+
     async createEvent(event: any) {
         return this.client.index({
             index: this.eventsIndex, document: event
         });
     }
+
     async createChart(chart: Chart) {
         return this.client.index({
             index: this.chartsIndex, document: chart
         });
     }
+
     async getAggregations(aggs) {
         return this.client.search({
             index: this.eventsIndex, size: 0, aggs
         })
     }
+
     async getCharts() {
         return this.getAllDocuments(this.chartsIndex);
     }
+
     async getAllDocuments(index: string) {
         return this.client.search({
             index, size: 100, query: {

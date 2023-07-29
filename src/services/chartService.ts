@@ -53,8 +53,6 @@ export class ChartService {
     aggToChartMapping[chart.schemaProperty] = chart.chartType;
   }
 
-
-
   private parsedHit(hit) {
     let source = hit._source;
     let result = {
