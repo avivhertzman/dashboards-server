@@ -1,5 +1,6 @@
 import { EventSchemaService } from "../services/eventSchemaService";
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
+import handleError from "../utils/errorHandler";
 
 const eventSchemaService = new EventSchemaService();
 
@@ -10,9 +11,7 @@ async function getEventSchemaById(req, res) {
         res.send(schema);
     }
     catch (error) {
-        res.status(error.statusCode || 500).send({
-            message: `an error has occurred because of ${error.message}`
-        })
+        handleError(error, res);
     }
 }
 
@@ -23,9 +22,7 @@ async function createEventSchema(req, res) {
         res.send(result);
     }
     catch (error) {
-        res.status(error.statusCode || 500).send({
-            message: `an error has occurred because of ${error.message}`
-        })
+        handleError(error, res);
     }
 }
 
@@ -36,9 +33,7 @@ async function getEventSchemas(req, res) {
             res.send(ids);
         }
         catch (error) {
-            res.status(error.statusCode || 500).send({
-                message: `an error has occurred because of ${error.message}`
-            })
+            handleError(error, res);
         }
     }
     else {

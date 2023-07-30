@@ -1,5 +1,7 @@
 import  { ChartService }  from "../services/chartService";
 import { Chart } from "../../core/objects/chart";
+import handleError from "../utils/errorHandler";
+
 
 const chartService = new ChartService();
 async function createChart(req, res) {
@@ -11,9 +13,7 @@ async function createChart(req, res) {
             res.send(aggResult);
         }
         catch (error) {
-            res.status(error.statusCode || 500).send({
-                message: `an error has occurred because of ${error.message}`
-            })
+            handleError(error, res);
         }
     }
 }
@@ -27,9 +27,7 @@ async function getChartAggregations(req, res) {
         res.send(aggs);
 
     } catch (error) {
-        res.status(error.statusCode || 500).send({
-            message: `an error has occurred because of ${error.message}`
-        })
+        handleError(error, res);
     }
 }
 

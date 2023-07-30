@@ -1,4 +1,6 @@
 import { EventService } from "../services/eventService";
+import handleError from "../utils/errorHandler";
+
 
 const eventService = new EventService();
 
@@ -9,9 +11,7 @@ async function createEvent(req, res) {
         res.send();
     }
     catch (error) {
-        res.status(error.statusCode || 500).send({
-            message: `an error has occurred because of ${error.message}`
-        })
+        handleError(error, res);
     }
 }
 
