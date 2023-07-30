@@ -2,16 +2,16 @@ import { EventSchemaService } from "../services/eventSchemaService";
 import { EventSchemaToCreate } from "../../core/objects/eventToSchemaCreate";
 
 const eventSchemaService = new EventSchemaService();
-// TODO: req validators
+
 async function getEventSchemaById(req, res) {
     let id = req.params.id;
     try {
         let schema = await eventSchemaService.getEventSchemaById(id);
         res.send(schema);
     }
-    catch (e) {
-        res.status(e.statusCode).send({
-            message: `an error has occurred because of ${e.error}`
+    catch (error) {
+        res.status(error.statusCode || 500).send({
+            message: `an error has occurred because of ${error.message}`
         })
     }
 }
@@ -22,9 +22,9 @@ async function createEventSchema(req, res) {
         let result = await eventSchemaService.createEventSchema(schema);
         res.send(result);
     }
-    catch (e) {
-        res.status(e.statusCode).send({
-            message: `an error has occurred because of ${e.error}`
+    catch (error) {
+        res.status(error.statusCode || 500).send({
+            message: `an error has occurred because of ${error.message}`
         })
     }
 }
@@ -35,9 +35,9 @@ async function getEventSchemas(req, res) {
             let ids = await eventSchemaService.getEventSchemasIds();
             res.send(ids);
         }
-        catch (e) {
-            res.status(e.statusCode).send({
-                message: `an error has occurred because of ${e.error}`
+        catch (error) {
+            res.status(error.statusCode || 500).send({
+                message: `an error has occurred because of ${error.message}`
             })
         }
     }

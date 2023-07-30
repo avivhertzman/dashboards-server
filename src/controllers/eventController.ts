@@ -8,9 +8,9 @@ async function createEvent(req, res) {
         await eventService.createEvent(event);
         res.send();
     }
-    catch (e) {
-        res.status(e.statusCode).send({
-            message: `an error has occurred because of ${e.error}`
+    catch (error) {
+        res.status(error.statusCode || 500).send({
+            message: `an error has occurred because of ${error.message}`
         })
     }
 }

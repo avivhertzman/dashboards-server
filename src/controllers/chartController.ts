@@ -10,9 +10,9 @@ async function createChart(req, res) {
             let aggResult = await chartService.getAggregations([chart])
             res.send(aggResult);
         }
-        catch (e) {
-            res.status(e.statusCode).send({
-                message: `an error has occurred because of ${e.message}`
+        catch (error) {
+            res.status(error.statusCode || 500).send({
+                message: `an error has occurred because of ${error.message}`
             })
         }
     }
