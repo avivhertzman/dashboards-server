@@ -1,12 +1,12 @@
 # Dashboards-server
 
-## Code Documintation
+## Code Documentation
 
 You can find in this [link](https://docs.google.com/document/d/1g5Rtkfnynjrl25uLGr_flklEqyrIvxTm1RpqIHzRZmA/edit?usp=sharing)  documentation containing:
-- project structure
-- db selection
-- end-to-end flow chart
-- json schema example
+- Project structure
+- DB selection
+- End-to-end flow chart
+- Json schema example
 
 ## Known Bugs
 - Create schema only supports properties defined under the 'properties' field. The properties type cannot be of type array and they cannot be nested. You can find an example of json schema in the [documentation link](https://docs.google.com/document/d/1g5Rtkfnynjrl25uLGr_flklEqyrIvxTm1RpqIHzRZmA/edit?usp=sharing) under json schema example.
